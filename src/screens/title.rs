@@ -13,11 +13,11 @@ fn spawn_title_screen(mut commands: Commands) {
         .ui_root()
         .insert(StateScoped(Screen::Title))
         .with_children(|children| {
-            children.button("Play").observe(enter_gameplay_screen);
-            children.button("Credits").observe(enter_credits_screen);
+            children.button("スタート").observe(enter_gameplay_screen);
+            children.button("クレジット").observe(enter_credits_screen);
 
             #[cfg(not(target_family = "wasm"))]
-            children.button("Exit").observe(exit_app);
+            children.button("終了").observe(exit_app);
         });
 }
 
