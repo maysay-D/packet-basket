@@ -1,13 +1,13 @@
 mod asset_tracking;
 pub mod audio;
-mod demo;
+mod game;
 #[cfg(feature = "dev")]
 mod dev_tools;
 mod screens;
 mod theme;
 
 use bevy::{
-    asset::AssetMetaCheck,
+    asset::{AssetMetaCheck, load_internal_binary_asset},
     audio::{AudioPlugin, Volume},
     prelude::*,
 };
@@ -57,10 +57,17 @@ impl Plugin for AppPlugin {
         // Add other plugins.
         app.add_plugins((
             asset_tracking::plugin,
-            demo::plugin,
+            game::plugin,
             screens::plugin,
             theme::plugin,
         ));
+
+        load_internal_binary_asset!(
+        app,
+        TextStyle::default().font,
+        "../assets/fonts/NotoSansJP-Bold.ttf",
+        |bytes: &[u8], _path: String| { Font::try_from_bytes(bytes.to_vec()).unwrap() }
+        );
 
         // Enable dev tools for dev builds.
         #[cfg(feature = "dev")]
