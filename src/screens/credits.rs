@@ -17,11 +17,10 @@ fn spawn_credits_screen(mut commands: Commands) {
         .ui_root()
         .insert(StateScoped(Screen::Credits))
         .with_children(|children| {
-            children.header("Made by");
-            children.label("Joe Shmoe - Implemented aligator wrestling AI");
-            children.label("Jane Doe - Made the music for the alien invasion");
+            children.header("制作");
+            children.label("D - プログラミング・音響・デザイン");
 
-            children.header("Assets");
+            children.header("アセット");
             children.label("Bevy logo - All rights reserved by the Bevy Foundation. Permission granted for splash screen use when unmodified.");
             children.label("Ducky sprite - CC0 by Caz Creates Games");
             children.label("Button SFX - CC0 by Jaszunio15");
