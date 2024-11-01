@@ -1,11 +1,7 @@
 //! Helper traits for creating common widgets.
 
-use bevy::{
-    ecs::system::EntityCommands,
-    prelude::*,
-    ui::Val::*
-};
 use crate::theme::{interaction::InteractionPalette, palette::*};
+use bevy::{ecs::system::EntityCommands, prelude::*, ui::Val::*};
 
 /// An extension trait for spawning UI widgets.
 pub trait Widgets {
@@ -21,7 +17,6 @@ pub trait Widgets {
 
 impl<T: Spawn> Widgets for T {
     fn button(&mut self, text: impl Into<String>) -> EntityCommands {
-
         let mut entity = self.spawn((
             Name::new("Button"),
             ButtonBundle {
@@ -42,16 +37,14 @@ impl<T: Spawn> Widgets for T {
             },
         ));
         entity.with_children(|children| {
-            children.spawn((
-                TextBundle::from_section(
-                    text,
-                    TextStyle {
-                        font_size: 40.0,
-                        color: BUTTON_TEXT,
-                        ..default()
-                    },
-                ),
-            ));
+            children.spawn((TextBundle::from_section(
+                text,
+                TextStyle {
+                    font_size: 40.0,
+                    color: BUTTON_TEXT,
+                    ..default()
+                },
+            ),));
         });
 
         entity
@@ -99,10 +92,10 @@ impl<T: Spawn> Widgets for T {
                     ..default()
                 },
             )
-                .with_style(Style {
-                    width: Px(500.0),
-                    ..default()
-                }),
+            .with_style(Style {
+                width: Px(500.0),
+                ..default()
+            }),
         ));
         entity
     }
