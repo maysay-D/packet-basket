@@ -54,10 +54,12 @@ fn spawn_player(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     window_query: Query<&Window, With<PrimaryWindow>>,
 ) {
-    let window = window_query.get_single().expect("ウィンドウが見つかりませんでした");
+    let window = window_query
+        .get_single()
+        .expect("ウィンドウが見つかりませんでした");
     let window_height = window.height();
 
-    let layout = TextureAtlasLayout::from_grid(UVec2::splat(32), 6, 2, Some(UVec2::splat(1)), None);
+    let layout = TextureAtlasLayout::from_grid(UVec2::splat(31), 4, 1, Some(UVec2::splat(1)), None);
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
     let player_animation = PlayerAnimation::new();
 
@@ -65,10 +67,10 @@ fn spawn_player(
         Name::new("Player"),
         Player,
         SpriteBundle {
-            texture: player_assets.ducky.clone(),
+            texture: player_assets.computer.clone(),
             transform: Transform {
                 translation: Vec3::new(0.0, -window_height / 2.0, 0.0),
-                scale: Vec2::splat(2.0).extend(1.0),
+                scale: Vec2::splat(2.0).extend(2.0),
                 ..Default::default()
             },
             ..Default::default()
@@ -124,13 +126,13 @@ pub struct PlayerAssets {
     // This #[dependency] attribute marks the field as a dependency of the Asset.
     // This means that it will not finish loading until the labeled asset is also loaded.
     #[dependency]
-    pub ducky: Handle<Image>,
+    pub computer: Handle<Image>,
     #[dependency]
     pub steps: Vec<Handle<AudioSource>>,
 }
 
 impl PlayerAssets {
-    pub const PATH_DUCKY: &'static str = "images/ducky.png";
+    pub const PATH_COMPUTER: &'static str = "images/computer.png";
     pub const PATH_STEP_1: &'static str = "audio/sound_effects/step1.ogg";
     pub const PATH_STEP_2: &'static str = "audio/sound_effects/step2.ogg";
     pub const PATH_STEP_3: &'static str = "audio/sound_effects/step3.ogg";
@@ -141,11 +143,11 @@ impl FromWorld for PlayerAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
         Self {
-            ducky: assets.load_with_settings(
-                PlayerAssets::PATH_DUCKY,
+            computer: assets.load_with_settings(
+                PlayerAssets::PATH_COMPUTER,
                 |settings: &mut ImageLoaderSettings| {
                     // Use `nearest` image sampling to preserve the pixel art style.
-                    settings.sampler = ImageSampler::nearest();
+                    settings.sampler = ImageSampler::default();
                 },
             ),
             steps: vec![
